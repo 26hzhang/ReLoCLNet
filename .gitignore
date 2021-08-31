@@ -133,7 +133,7 @@ dmypy.json
 .vscode/
 .DS_Store
 *.DS_Store
-data/
+data/tvr_feature_release/
 method_tvr/results/
 method_act/results/
 

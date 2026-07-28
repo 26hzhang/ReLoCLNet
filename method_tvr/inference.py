@@ -85,8 +85,9 @@ def post_processing_svmr_nms(svmr_res, nms_thd=0.6, max_before_nms=1000, max_aft
     processed_svmr_res = []
     for e in svmr_res:
         # the predictions are sorted inside the nms func.
-        e["predictions"] = temporal_non_maximum_suppression(e["predictions"][:max_before_nms],
-                                                            nms_threshold=nms_thd)[:max_after_nms]
+        preds_before_nms = e["predictions"][:max_before_nms]
+        nms_results = temporal_non_maximum_suppression([p[1:] for p in preds_before_nms], nms_threshold=nms_thd)
+        e["predictions"] = [[p[0]] + res for p, res in zip(preds_before_nms, nms_results)][:max_after_nms]
         processed_svmr_res.append(e)
     return processed_svmr_res
 
